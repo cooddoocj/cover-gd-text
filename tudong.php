@@ -8,15 +8,15 @@ use GDText\Box;
 use GDText\Color;
 
 $theloai = random_array(array('kiem_hiep', 'co_dai', 'hien_dai', 'di_nang', 'mac_dinh'));
-$mau = random_array(array('trang', 'do', 'toi'));
-$covers = glob("images/covers/" . $theloai . "__" . $mau . "_*.jpg");
+$covers = glob("images/covers/" . $theloai . "__*.jpg");
 $img_path = random_array($covers);
 
 $im = imagecreatefromjpeg($img_path);
 
-$tacpham = random_array(array('Trong Hạch Bạo Đi Ra Cường Giả', 'phàm nhân tu tiên', 'Tam Thốn Nhân Gian'));
+$tacpham = random_array(array('Trong Hạch Bạo Đi Ra Cường Giả', 'phàm nhân tu tiên', 'Tam Thốn Nhân Gian', 'Cô Vợ Ngọt Ngào Có Chút Bất Lương (Vợ Mới Bất Lương Có Chút Ngọt)'));
+$tacgia = random_array(array('Quẫn Quẫn Hữu Yêu', 'Năm', 'Vong Ngữ', 'Cật Ngã Tây Hồng Thị'));
 $tacpham = get_title($tacpham, true);
-$tacgia = get_title('vong ngữ', true);
+$tacgia = get_title($tacgia, true);
 
 $tacgia_line = substr_count($tacgia, " ");
 if ($tacgia_line <= 4) {
@@ -32,23 +32,12 @@ if ($tacgia_line <= 4) {
 $tacpham_line = substr_count($tacpham, " ");
 
 // check so chu
-if ($tacpham_line > 12 || $tacgia_line > 10) {
-	exit('Tác phẩm < 12 chữ, tác giả < 10 chữ');
+if ($tacpham_line > 18 || $tacgia_line > 12) {
+	exit('Tác phẩm < 18 chữ, tác giả < 12 chữ');
 }
 
 // kiem hiep
 if ($theloai == 'kiem_hiep') {
-
-	if ($mau == 'toi') {
-		$tacpham_color = array(255, 0, 0);
-		$tacpham_shadow = array(128, 0, 0);
-	} elseif ($mau == 'trang') {
-		$tacpham_color = array(204, 51, 0);
-		$tacpham_shadow = array(51, 51, 51);			
-	} elseif ($mau == 'do') {
-		$tacpham_color = array(0, 204, 0);
-		$tacpham_shadow = array(0, 102, 0);			
-	}
 
 	if ($tacpham_line < 4) {
 
@@ -72,32 +61,35 @@ if ($theloai == 'kiem_hiep') {
 		// tac gia
 		$box = new Box($im);
 		$box->setFontFace(__DIR__.'/font/mang_cau.ttf');
-		$box->setFontColor(new Color(0, 0, 0));
-		$box->setTextShadow(new Color(191, 191, 191), -2, -2);
+		$box->setFontColor(new Color(191, 191, 191));
+		$box->setTextShadow(new Color(0, 0, 0), -2, -2);
 		$box->setFontSize($tacgia_size);
 		$box->setBox(130, 100, 600, 800);
 		$box->setTextAlign('center', 'center');
-/*		$box->setStrokeColor(new Color(242, 242, 242));
-		$box->setStrokeSize(1);
-*/		$box->draw($tacgia);
+		$box->draw($tacgia);
 
 		// tac pham
 		$box = new Box($im);
 		$box->setFontFace(__DIR__.'/font/'.random_array(array('hl_thufap1', 'thien_an')).'.ttf');
-		$box->setFontColor(new Color($tacpham_color[0], $tacpham_color[1], $tacpham_color[2]));
-		$box->setTextShadow(new Color($tacpham_shadow[0], $tacpham_shadow[1], $tacpham_shadow[2]), 5, 5);
+		$box->setFontColor(new Color(204, 51, 0));
+		$box->setStrokeColor(new Color(255, 255, 255));
+		$box->setStrokeSize(1);
+
 		$box->setFontSize($tacpham_size);
 		$box->setLineHeight(1.5);
 		$box->setBox(0, 0, 600, 800);
 		$box->setTextAlign('center', 'center');
 		$box->draw($tacpham);
+
 	} else {
 
 		// tac pham
 		$box = new Box($im);
 		$box->setFontFace(__DIR__.'/font/hl_ong_do.ttf');
-		$box->setFontColor(new Color($tacpham_color[0], $tacpham_color[1], $tacpham_color[2]));
-		$box->setTextShadow(new Color($tacpham_shadow[0], $tacpham_shadow[1], $tacpham_shadow[2]), 2, 2);
+		$box->setFontColor(new Color(0, 128, 0));
+		//$box->setTextShadow(new Color(255, 51, 0), -3, -3);
+		$box->setStrokeColor(new Color(242, 242, 242));
+		$box->setStrokeSize(2);
 		$box->setFontSize(72);
 		$box->setLineHeight(1);
 		$box->setBox(20, 100, 560, 760);
@@ -107,12 +99,11 @@ if ($theloai == 'kiem_hiep') {
 		// tac gia
 		$box = new Box($im);
 		$box->setFontFace(__DIR__.'/font/mang_cau.ttf');
-		$box->setFontColor(new Color(0, 51, 102));
+		$box->setFontColor(new Color(191, 191, 191));
+		$box->setTextShadow(new Color(0, 0, 0), -2, -2);
 		$box->setFontSize($tacgia_size);
-		$box->setBox(20, -100, 560, 760);
+		$box->setBox(120, -100, 360, 760);
 		$box->setTextAlign('center', 'bottom');
-		$box->setStrokeColor(new Color(242, 242, 242)); // Set stroke color
-		$box->setStrokeSize(1); // Stroke size in pixels
 		$box->draw($tacgia);
 
 	}
@@ -146,15 +137,14 @@ if ($theloai == 'kiem_hiep') {
 	// tac gia
 	$box = new Box($im);
 	$box->setFontFace(__DIR__.'/font/PatrickHandSC-Regular.ttf');
-	$box->setFontColor(new Color(255, 255, 255));
-	$box->setStrokeColor(new Color(0, 0, 0));
-	$box->setStrokeSize(1);
-	$box->setFontSize(35);
+	$box->setFontColor(new Color(191, 191, 191));
+	$box->setTextShadow(new Color(0, 0, 0), -2, -2);
+	$box->setFontSize($tacgia_size);
 	$box->setBox(120, 650, 360, 800);
 	$box->setTextAlign('center', 'top');
 	$box->draw($tacgia);
 
-} else { // ngon tinh
+} else { // con lai
 
 	if ($tacpham_line == 0 || $tacpham_line == 1) {
 		$tacpham_size = 100;
@@ -168,42 +158,13 @@ if ($theloai == 'kiem_hiep') {
 		$tacpham_size = 65;
 	}
 
-	// font
-	if ($theloai == 'co_dai' && $mau == 'do') {
-		$tacpham_font = 'fleur';
-		$tacpham_color = array(204, 0, 153);
-		$tacpham_shadow = array(102, 0, 204);
-	} elseif ($theloai == 'co_dai' && $mau == 'toi') {
-		$tacpham_font = 'fleur';
-		$tacpham_color = array(255, 153, 204);
-		$tacpham_shadow = array(255, 51, 204);
-	} elseif ($theloai == 'co_dai' && $mau == 'trang') {
-		$tacpham_font = 'fleur';
-		$tacpham_color = array(204, 0, 102);
-		$tacpham_shadow = array(102, 0, 51);
-	} elseif ($theloai == 'hien_dai' && $mau == 'trang') {
-		$tacpham_font = 'buc_thu';
-		$tacpham_color = array(204, 0, 102);
-		$tacpham_shadow = array(102, 0, 51);
-	} elseif ($theloai == 'hien_dai' && $mau == 'do') {
-		$tacpham_font = 'buc_thu';
-		$tacpham_color = array(204, 0, 153);
-		$tacpham_shadow = array(102, 0, 204);
-	} elseif ($theloai == 'hien_dai' && $mau == 'toi') {
-		$tacpham_font = 'buc_thu';
-		$tacpham_color = array(255, 153, 204);
-		$tacpham_shadow = array(255, 51, 204);
-	} else {
-		$tacpham_font = 'buc_thu';
-		$tacpham_color = array(204, 0, 102);
-		$tacpham_shadow = array(102, 0, 51);
-	}
-
 	// tac pham
 	$box = new Box($im);
-	$box->setFontFace(__DIR__.'/font/'.$tacpham_font.'.ttf');
-	$box->setFontColor(new Color($tacpham_color[0], $tacpham_color[1], $tacpham_color[2]));
-	$box->setTextShadow(new Color($tacpham_shadow[0], $tacpham_shadow[1], $tacpham_shadow[2]), 2, 2);
+	$box->setFontFace(__DIR__.'/font/'.random_array(array('buc_thu', 'fleur')).'.ttf');
+	$box->setFontColor(new Color(0, 51, 102));
+	//$box->setTextShadow(new Color(153, 0, 61), 2, 2);
+	$box->setStrokeColor(new Color(242, 242, 242));
+	$box->setStrokeSize(2);
 	$box->setFontSize($tacpham_size);
 	$box->setLineHeight(1.2);
 	$box->setBox(20, 100, 560, 760);
@@ -213,15 +174,15 @@ if ($theloai == 'kiem_hiep') {
 	// tac gia
 	$box = new Box($im);
 	$box->setFontFace(__DIR__.'/font/ben_xuan.ttf');
-	$box->setFontColor(new Color(0, 51, 102));
+	$box->setFontColor(new Color(230, 0, 92));
 	$box->setFontSize($tacgia_size);
 	$box->setBox(20, -100, 560, 760);
 	$box->setTextAlign('center', 'bottom');
-	$box->setStrokeColor(new Color(242, 242, 242)); // Set stroke color
-	$box->setStrokeSize(1); // Stroke size in pixels
+	$box->setStrokeColor(new Color(242, 242, 242));
+	$box->setStrokeSize(2);
 	$box->draw($tacgia);
-}
 
+}
 
 // logo
 $box = new Box($im);
@@ -232,9 +193,11 @@ $box->setBox(-2, -2, 600, 800);
 $box->setTextAlign('right', 'bottom');
 $box->draw("tusach.org");
 
+// in ra ảnh
 header("Content-type: image/png");
 imagepng($im);
 
+/*hàm chức năng*/
 function get_title($title, $mb = false) {
 	$title = preg_replace('/[^A-Za-z0-9àáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]/', ' ', $title);
 	$title = preg_replace('/\s+/', ' ', $title);
