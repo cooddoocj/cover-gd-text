@@ -18,6 +18,7 @@ $tacgia = random_array(array('Quẫn Quẫn Hữu Yêu', 'Năm', 'Vong Ngữ', '
 $tacpham = get_title($tacpham, true);
 $tacgia = get_title($tacgia, true);
 
+
 $tacgia_line = substr_count($tacgia, " ");
 if ($tacgia_line <= 4) {
 	$tacgia_size = 40;
@@ -58,15 +59,17 @@ if ($theloai == 'kiem_hiep') {
 		$marge_bottom = 130;
 		imagecopy($im, $stamp, imagesx($im) - imagesx($stamp) - $marge_right, imagesy($im) - imagesy($stamp) - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp));
 
-		// tac gia
-		$box = new Box($im);
-		$box->setFontFace(__DIR__.'/font/mang_cau.ttf');
-		$box->setFontColor(new Color(191, 191, 191));
-		$box->setTextShadow(new Color(0, 0, 0), -2, -2);
-		$box->setFontSize($tacgia_size);
-		$box->setBox(130, 100, 600, 800);
-		$box->setTextAlign('center', 'center');
-		$box->draw($tacgia);
+		if (!empty($tacgia)) {
+			// tac gia
+			$box = new Box($im);
+			$box->setFontFace(__DIR__.'/font/mang_cau.ttf');
+			$box->setFontColor(new Color(191, 191, 191));
+			$box->setTextShadow(new Color(0, 0, 0), -2, -2);
+			$box->setFontSize($tacgia_size);
+			$box->setBox(130, 100, 600, 800);
+			$box->setTextAlign('center', 'center');
+			$box->draw($tacgia);		
+		}
 
 		// tac pham
 		$box = new Box($im);
@@ -96,16 +99,17 @@ if ($theloai == 'kiem_hiep') {
 		$box->setTextAlign('center', 'top');
 		$box->draw($tacpham);
 
-		// tac gia
-		$box = new Box($im);
-		$box->setFontFace(__DIR__.'/font/mang_cau.ttf');
-		$box->setFontColor(new Color(191, 191, 191));
-		$box->setTextShadow(new Color(0, 0, 0), -2, -2);
-		$box->setFontSize($tacgia_size);
-		$box->setBox(120, -100, 360, 760);
-		$box->setTextAlign('center', 'bottom');
-		$box->draw($tacgia);
-
+		if (!empty($tacgia)) {
+			// tac gia
+			$box = new Box($im);
+			$box->setFontFace(__DIR__.'/font/mang_cau.ttf');
+			$box->setFontColor(new Color(191, 191, 191));
+			$box->setTextShadow(new Color(0, 0, 0), -2, -2);
+			$box->setFontSize($tacgia_size);
+			$box->setBox(120, -100, 360, 760);
+			$box->setTextAlign('center', 'bottom');
+			$box->draw($tacgia);
+		}
 	}
 
 } elseif ($theloai == 'di_nang') {
@@ -134,15 +138,17 @@ if ($theloai == 'kiem_hiep') {
 	$box->setTextAlign('center', 'bottom');
 	$box->draw($tacpham);
 
-	// tac gia
-	$box = new Box($im);
-	$box->setFontFace(__DIR__.'/font/PatrickHandSC-Regular.ttf');
-	$box->setFontColor(new Color(191, 191, 191));
-	$box->setTextShadow(new Color(0, 0, 0), -2, -2);
-	$box->setFontSize($tacgia_size);
-	$box->setBox(120, 650, 360, 800);
-	$box->setTextAlign('center', 'top');
-	$box->draw($tacgia);
+	if (!empty($tacgia)) {
+		// tac gia
+		$box = new Box($im);
+		$box->setFontFace(__DIR__.'/font/PatrickHandSC-Regular.ttf');
+		$box->setFontColor(new Color(191, 191, 191));
+		$box->setTextShadow(new Color(0, 0, 0), -2, -2);
+		$box->setFontSize($tacgia_size);
+		$box->setBox(120, 650, 360, 800);
+		$box->setTextAlign('center', 'top');
+		$box->draw($tacgia);
+	}
 
 } else { // con lai
 
@@ -171,16 +177,18 @@ if ($theloai == 'kiem_hiep') {
 	$box->setTextAlign('center', 'top');
 	$box->draw($tacpham);
 
-	// tac gia
-	$box = new Box($im);
-	$box->setFontFace(__DIR__.'/font/ben_xuan.ttf');
-	$box->setFontColor(new Color(230, 0, 92));
-	$box->setFontSize($tacgia_size);
-	$box->setBox(20, -100, 560, 760);
-	$box->setTextAlign('center', 'bottom');
-	$box->setStrokeColor(new Color(242, 242, 242));
-	$box->setStrokeSize(2);
-	$box->draw($tacgia);
+	if (!empty($tacgia)) {
+		// tac gia
+		$box = new Box($im);
+		$box->setFontFace(__DIR__.'/font/ben_xuan.ttf');
+		$box->setFontColor(new Color(230, 0, 92));
+		$box->setFontSize($tacgia_size);
+		$box->setBox(20, -100, 560, 760);
+		$box->setTextAlign('center', 'bottom');
+		$box->setStrokeColor(new Color(242, 242, 242));
+		$box->setStrokeSize(2);
+		$box->draw($tacgia);
+	}
 
 }
 
@@ -199,9 +207,9 @@ imagepng($im);
 
 /*hàm chức năng*/
 function get_title($title, $mb = false) {
-	$title = preg_replace('/[^A-Za-z0-9àáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]/', ' ', $title);
+	$title = preg_replace('/[^A-Za-z0-9àáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]/u', ' ', $title);
 	$title = preg_replace('/\s+/', ' ', $title);
-	$title = trim($title);
+	$title = preg_replace('/\s*(.*)\s*/', '$1', $title);
 	if ($mb) {
 		$title = mb_convert_case($title, MB_CASE_TITLE, "UTF-8"); // heroku khong ho tro ham nay bat "ext-mbstring": "*" vao composer.json và composer.lock
 	}
